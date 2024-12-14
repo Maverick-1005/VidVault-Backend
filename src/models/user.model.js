@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema({
 // in arrow function we dont have context of this
 userSchema.pre("save" , async function (next) {
     if(! this.isModified("password")) return next();
-    this.password = bcrypt.hash(this.password , 10) // hashrounds
+    this.password = await bcrypt.hash(this.password , 10)
     next()
 })
 
