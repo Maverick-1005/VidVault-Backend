@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema({
     fullName: {
         type: String,
         required: true,
-        unique: true,
         lowercase: true , 
         trim : true,
         index: true
@@ -33,7 +32,6 @@ const userSchema = new mongoose.Schema({
     },
     coverImage: {
         type: String , // cloudinary URL
-        required: true,
     },
     watchHistory: [
         {

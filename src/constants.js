@@ -1,1 +1,1 @@
-export const DB_NAME = "vidvault"
+export const DB_NAME="vidvault"
