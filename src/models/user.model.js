@@ -62,32 +62,33 @@ userSchema.methods.isPasswordCorrect = async function (password) {
    return  await bcrypt.compare(password , this.password)
 }
 
+// here user schema is a data model in which a method is invoked to generate access and refresh token
+
 userSchema.methods.generateAccessToken = function(){
     return jwt.sign(
         {
             _id: this._id,
             email: this.email,
-            username: this.username ,
+            username: this.username ,    // metadata about the user
             fullName: this.fullName
         },
-        process.env.ACCESS_TOKEN_SECRET,
+        process.env.ACCESS_TOKEN_SECRET,    // found in the .env file
         {
-            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY  // found in the .env file
         }
     )
 }
 userSchema.methods.generateRefreshToken = function(){
     return jwt.sign(
         {
-            _id: this._id,
-            email: this.email,
-            username: this.username ,
-            fullName: this.fullName
+            _id: this._id,  // refresh token generaly doesn't carry much data
         },
         process.env.REFRESH_TOKEN_SECRET,
         {
-            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY    // found in the .env file
         }
     )
 }
+
+
 export const User = mongoose.model("User" , userSchema)
