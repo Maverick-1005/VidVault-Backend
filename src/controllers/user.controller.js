@@ -213,7 +213,126 @@ const refreshAccessToken = asyncHandler(async(req , res) => {
    )
 })
 
-export {registerUser , loginUser , logoutUser , refreshAccessToken}
+const changeCurrentPassword = asyncHandler(async(req,res) => {
+
+   const {oldPassword , newPassword} = req.body
+
+   const user = User.findById(req.user._id)
+   const isPasswordcorrect = await user.isPasswordCorrect(oldPassword)
+   if(!isPasswordcorrect){
+    throw new ApiError(401 , "Old Password is incorrect")
+   }
+   user.password = newPassword
+   await user.save({validateBeforeSave: false})
+   return res
+   .status(200)
+   .json(new ApiResponse(200 , {} , "Password changed successfuly"))
+    
+})
+
+const getCurrentUser = asyncHandler(async(req , res) => {
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , req.user , "current user fetched successfuly"))
+})
+
+const updateAccountDetails = asyncHandler(async(req,res) => {
+    const {username , email , fullName } = req.body
+   
+    if(!username && (!email && !fullName)){
+        throw new ApiError(400 , "Nothing to update...")
+    }
+    
+    const user = User.findByIdAndUpdate(
+        req.user?._id ,
+        {
+          $set: {
+            // Yahan check krlo
+            fullName: fullName || req.user.fullName,
+            email: email || req.user.email,
+            username: username || req.user.username
+          }
+        }, 
+        {
+            new : true // update hone ke baad kaa object return hota hai ye krdo to
+        }
+    ).select("-password")
+ 
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , {} ,"Account details updated successfully"))
+
+})
+// for file updation write controller
+
+const updateUserAvatar  = asyncHandler(async(req, res) => {
+    const avatarLocalPath = req.file?.path
+
+    if(!avatarLocalPath) throw new ApiError (400 , "Avatar File is missing")
+
+    const avatar = await uploadOnCloudinary(avatarLocalPath)
+
+    if(!avatar.url){
+        throw new ApiError(400 , "Error while uploading avatar on Cloudinary")
+    }
+
+   const user = await User.findByIdAndUpdate(
+        req.user?._id, 
+        {
+           $set: {
+            avatar: avatar.url
+           }
+        }, 
+        {
+            new: true
+        }
+    ).select("-password")
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , "Avatar image updated successfuly"))
+    
+})
+
+const updateUserCoverImage  = asyncHandler(async(req, res) => {
+    const coverImageLocalPath = req.file?.path
+
+    if(!coverImageLocalPath) throw new ApiError (400 , "Cover Image File is missing")
+
+    const coverImage = await uploadOnCloudinary(coverImageLocalPath)
+
+    if(!coverImage.url){
+        throw new ApiError(400 , user, "Error while uploading coverImage on Cloudinary")
+    }
+
+   const user = await User.findByIdAndUpdate(
+        req.user?._id, 
+        {
+           $set: {
+            coverImage: coverImage.url
+           }
+        }, 
+        {
+            new: true
+        }
+    ).select("-password")
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200 ,user, "Cover image updated successfuly"))
+
+})
+
+export {registerUser ,
+     loginUser , 
+     logoutUser , 
+     refreshAccessToken , 
+     getCurrentUser , 
+     changeCurrentPassword , 
+     updateAccountDetails,
+     updateUserAvatar,
+     updateUserCoverImage
+    }
 
 
 /* ------> For Register User <------ */
