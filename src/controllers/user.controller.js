@@ -243,7 +243,7 @@ const updateAccountDetails = asyncHandler(async(req,res) => {
         throw new ApiError(400 , "Nothing to update...")
     }
     
-    const user = User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
         req.user?._id ,
         {
           $set: {
@@ -322,6 +322,78 @@ const updateUserCoverImage  = asyncHandler(async(req, res) => {
     .json(new ApiResponse(200 ,user, "Cover image updated successfuly"))
 
 })
+
+const getUserChannelProfile = asyncHandler( async(req , res) => {
+
+    const {username} = req.params  // from url
+
+    if(!username?.trim()) throw new ApiError(400 , "Username is missing ");
+
+   const channel =  await User.aggregate([   // yaha se array aati hai
+        {
+            $match: {
+                username: username.toLowerCase()
+            }
+        },
+        {
+            $lookup: {
+                from: "subscriptions",
+                localField: "_id",
+                foreignField: "channel",
+                as : "subscribers"
+            }
+        },
+        {
+            $lookup: {
+                from: "subscriptions",
+                localField: "_id",
+                foreignField: "subscribers",
+                as : "subscribedChannels"
+            }
+        },
+        {
+            $addFields: {
+                subscribersCount: {
+                    $size: "$subscribers"
+                },
+                subscribedChannelsCount: {
+                    $size: "subscribedChannelsCount"
+                },
+                isSubscribed: {
+                    $cond: {
+                        if: {$in: [req.user?._id , "$subscribers.subscriber"]},
+                        then: true,
+                        else: false
+                    }
+                }
+            }
+        },
+        {
+            $project: {
+                fullName: 1,
+                username: 1,
+                subscribersCount: 1,
+                subscribedChannelsCount: 1,
+                avatar: 1,
+                email: 1,
+                coverImage: 1,
+                isSubscribed: 1
+
+            }
+        }
+    ])
+})
+
+ if(!channel?.length){
+    throw new ApiError(404 , "No such channel found")
+ }
+
+ return res
+ .status(200)
+ .json(new ApiResponse (200 , channel[0] , "userChannel fetched successfully "))
+
+// console log krke dekhna channel
+
 
 export {registerUser ,
      loginUser , 
