@@ -50,7 +50,7 @@ const registerUser = asyncHandler( async(req , res) => {
 
     }
     // first property has object .path gives path
-    // console.log(req.files);
+    console.log(req.files);
     console.log("Hello" , req.body);
  
    const avatarLocalPath = req.files?.avatar[0].path
@@ -128,7 +128,7 @@ const loginUser = asyncHandler(async(req , res) => {
     secure: true, // only modifiable by server
 
    }
-
+   console.log(" hoiga login")
 
    return res
    .status(200)
@@ -153,14 +153,13 @@ const logoutUser = asyncHandler(async(req ,res ) => {
         req.user._id,
         {
             $set: {
-                refreshToken: undefined
+                refreshToken: undefined // yaha dekhlio
             }
-        } , 
+        } ,  
         {
             new : true
         }
     )
-
     const options = {
         httpOnly: true,
         secure: true

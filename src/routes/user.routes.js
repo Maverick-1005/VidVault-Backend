@@ -61,5 +61,5 @@ userRouter.route("/coverImage").patch(verifyJWT , upload.single("coverImage") , 
 userRouter.route("/c/:username").get(
   verifyJWT , getUserChannelProfile
 )
-userRouter.route("/u/history").get(verifyJWT , getWatchHistory)
+userRouter.route("/history").get(verifyJWT , getWatchHistory)
 export default userRouter
