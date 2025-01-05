@@ -128,7 +128,7 @@ const loginUser = asyncHandler(async(req , res) => {
     secure: true, // only modifiable by server
 
    }
-   console.log(" hoiga login")
+   console.log(" hoiga login with at: " , accessToken )
 
    return res
    .status(200)
@@ -235,7 +235,20 @@ const getCurrentUser = asyncHandler(async(req , res) => {
     .status(200)
     .json(new ApiResponse(200 , req.user , "current user fetched successfuly"))
 })
+const getUserById = asyncHandler(async(req , res) => {
+    const {id} = req.body
 
+    if(!id) throw new ApiError(404 , "Id not found")
+    
+    const user = await User.findById(id)
+    if(!user){
+        throw new ApiError(404 , "No user with that Id")
+    }
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , user , "User fetched successfuly")
+)   
+})
 const updateAccountDetails = asyncHandler(async(req,res) => {
     const {username , email , fullName } = req.body
    
@@ -457,7 +470,8 @@ export {registerUser ,
      updateUserAvatar,
      updateUserCoverImage,
      getUserChannelProfile,
-     getWatchHistory
+     getWatchHistory,
+     getUserById
     }
 
 
