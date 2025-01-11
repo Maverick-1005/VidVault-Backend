@@ -1,0 +1,1 @@
+delete previous thumbnail from cloudinary after updating the thumbnail

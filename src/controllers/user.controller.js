@@ -126,6 +126,7 @@ const loginUser = asyncHandler(async(req , res) => {
    const options = {
     httpOnly: true,
     secure: true, // only modifiable by server
+    SameSite: "none"
 
    }
    console.log(" hoiga login with at: " , accessToken )
@@ -149,6 +150,7 @@ const loginUser = asyncHandler(async(req , res) => {
 })
 
 const logoutUser = asyncHandler(async(req ,res ) => {
+    console.log("logout here");
     await User.findByIdAndUpdate(
         req.user._id,
         {
@@ -235,11 +237,13 @@ const getCurrentUser = asyncHandler(async(req , res) => {
     .status(200)
     .json(new ApiResponse(200 , req.user , "current user fetched successfuly"))
 })
+
 const getUserById = asyncHandler(async(req , res) => {
-    const {id} = req.body
+
+    const {id} = req.params
 
     if(!id) throw new ApiError(404 , "Id not found")
-    
+    // console.log(" id aa gyi " , id);
     const user = await User.findById(id)
     if(!user){
         throw new ApiError(404 , "No user with that Id")
@@ -249,6 +253,7 @@ const getUserById = asyncHandler(async(req , res) => {
     .json(new ApiResponse(200 , user , "User fetched successfuly")
 )   
 })
+
 const updateAccountDetails = asyncHandler(async(req,res) => {
     const {username , email , fullName } = req.body
    

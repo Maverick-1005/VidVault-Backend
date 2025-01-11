@@ -39,5 +39,19 @@ const cloudinaryInfo = async (videoPublicId) => {
     };
 }
 
+const deletefromCloudinary = async (url) => {
+    try {
+        // Extract the public ID from the URL
+        const urlParts = url.split('/');
+        const publicIdWithExtension = urlParts[urlParts.length - 1]; // e.g., sample-image.jpg
+        const publicId = publicIdWithExtension.split('.')[0]; // Remove file extension
+    
+        // Delete the file using the public ID
+        const result = await cloudinary.uploader.destroy(publicId);
+        console.log('File deleted successfully:', result);
+      } catch (error) {
+        console.error('Error deleting file:', error);
+      }
+}
 
-export { uploadOnCloudinary , cloudinaryInfo }
+export { uploadOnCloudinary , cloudinaryInfo , deletefromCloudinary}

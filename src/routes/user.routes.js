@@ -17,7 +17,7 @@ import {
 import {upload} from "../middlewares/multer.middleware.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
-
+console.log("in rous")
 const userRouter = Router()
 
 userRouter.route("/register").post(
@@ -33,10 +33,12 @@ userRouter.route("/login").post(
   loginUser
 )
 
+// console.log("env ;" , process.env.ACCESS_TOKEN_SECRET)
+
 
 //secured routes
 
-userRouter.route("/logout").post(
+userRouter.route("/logout").get(
   verifyJWT,
   logoutUser
 )
@@ -54,7 +56,7 @@ userRouter.route("/current-user").get(
 userRouter.route("/update-account").patch(
   verifyJWT , updateAccountDetails
 )
-userRouter.route("/id").post(
+userRouter.route("/:id").get(
   verifyJWT , getUserById
 )
 
