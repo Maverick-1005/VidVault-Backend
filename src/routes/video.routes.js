@@ -13,7 +13,7 @@ videoRouter.route("/video-upload").post(
       ]),
     publishVideo
 )
-videoRouter.route("/video-home").get(
+videoRouter.route("/allVideos").get(
     getAllVideos
 )
 videoRouter.route("/v/:videoId").get(
