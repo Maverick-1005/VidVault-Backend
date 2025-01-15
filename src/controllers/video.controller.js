@@ -57,6 +57,12 @@ const getAllVideos = asyncHandler(async (req, res) => {
     console.log("owner = " , owner)
 
     const query = {};
+    if(q){
+        const searchQuery = q.replace(/ /g, "+");
+        const regexPattern = `(${searchQuery.replace(/\+/g, "|")})`;
+        console.log("generated regx patt ", regexPattern)
+        query.title = { $regex: new RegExp(regexPattern) , $options: "i"}
+    }
     if (owner) {
         query.owner = owner; 
       }
