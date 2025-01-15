@@ -241,7 +241,7 @@ const getCurrentUser = asyncHandler(async(req , res) => {
 const getUserById = asyncHandler(async(req , res) => {
 
     const {id} = req.params
-
+    
     if(!id) throw new ApiError(404 , "Id not found")
     // console.log(" id aa gyi " , id);
     const user = await User.findById(id)

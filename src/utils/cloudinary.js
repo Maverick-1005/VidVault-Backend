@@ -27,17 +27,18 @@ const uploadOnCloudinary = async (localFilePath) => {
         return null
     }
 }
-const cloudinaryInfo = async (videoPublicId) => {
     const cloudinaryInfo = async (videoPublicId) => {
         try {
-            const result = await cloudinary.uploader.info(videoPublicId);
+            const result = await cloudinary.api.resource(videoPublicId, {
+                resource_type: 'video', // Specify resource type (image, video, etc.)
+            });
             return result;
         } catch (error) {
-            console.error(error);
+            console.error("Error fetching Cloudinary info:", error);
             throw error;
         }
     };
-}
+
 
 const deletefromCloudinary = async (url) => {
     try {

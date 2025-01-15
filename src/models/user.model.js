@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
             ref: "Video"
         }
     ],
+    bio: {
+        type: String,
+        default: "..."
+    },
     password:{
         type: String,
         required: [true , 'Password is required']

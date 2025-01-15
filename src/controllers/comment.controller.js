@@ -17,7 +17,7 @@ const getAllComments = asyncHandler(async(req , res) => {
         .sort({ [sortBy]: sortOrder })
         .skip((page - 1) * limit)
         .limit(limit);
-    // console.log("Comments = ", comments);
+    console.log("Comments = ");
     return res
         .status(200)
         .json(new ApiResponse(200, comments, "Comments fetched successfully"));

@@ -13,7 +13,7 @@ commentRouter.route('/add-comment/:videoId').post(
   verifyJWT,
   addComment
 )
-commentRouter.route('/delete-comment/:videoId').post(
+commentRouter.route('/delete-comment/:commentId').post(
   verifyJWT,
   deleteComment
 )

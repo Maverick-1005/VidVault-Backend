@@ -23,7 +23,10 @@ const publishVideo = asyncHandler(async (req, res) => {
 
     const videoFile = await uploadOnCloudinary(videoFileLocalPath)
     const thumbnail = await uploadOnCloudinary(thumbnailPath)
+    const videoResponse = await cloudinaryInfo(videoFile.public_id)
 
+
+    // console.log("response is = " , videoFile.b)
     if (!videoFile || !thumbnail) {
         throw new ApiError(500, "Video or thumbnail Upload failed")
     } else {
@@ -48,7 +51,7 @@ const publishVideo = asyncHandler(async (req, res) => {
 
 const getAllVideos = asyncHandler(async (req, res) => {
     console.log("here")
-    const { page = 1, limit = 10, owner, q, sortBy = 'createdAt', sortType = 'desc', userId } = req.query
+    const { page = 1, limit = 10, owner, videoId ,q, sortBy = 'createdAt', sortType = 'desc', userId } = req.query
     console.log("QUERY = " , req.query)
     const sortOrder = sortType === 'asc' ? 1 : -1;
     console.log("owner = " , owner)
@@ -57,7 +60,11 @@ const getAllVideos = asyncHandler(async (req, res) => {
     if (owner) {
         query.owner = owner; 
       }
-
+    if(videoId){
+        console.log("here 2" , videoId)
+        query._id = {$ne : videoId}
+    }
+   
     const videos = await Video
         .find(query)
         .sort({ [sortBy]: sortOrder })
@@ -65,6 +72,8 @@ const getAllVideos = asyncHandler(async (req, res) => {
         .limit(limit);
 
     console.log("Videos gye = ", videos);
+    //    console.log(" id= " , id );
+
     return res
         .status(200)
         .json(new ApiResponse(200, videos, "Videos fetched successfully"));
@@ -72,7 +81,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
 
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params;
-
+   console.log("video id here 3 " , videoId)
     if (!videoId) throw new ApiError(404, "No Video Id found");
 
     const videoFile = await Video.findById(videoId)
