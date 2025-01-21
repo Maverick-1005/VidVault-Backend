@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema({
     fullName: {
         type: String,
         required: true,
-        lowercase: true , 
         trim : true,
         index: true
     },
@@ -45,7 +44,7 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type: String,
-        required: [true , 'Password is required']
+        
     },
     refreshToken:{
         type: String,

@@ -11,7 +11,8 @@ import {
      updateUserCoverImage, 
      getUserChannelProfile,
      getWatchHistory,
-     getUserById
+     getUserById,
+     signupWithGoogle
     } 
     from "../controllers/user.controller.js";
 import {upload} from "../middlewares/multer.middleware.js"
@@ -27,6 +28,9 @@ userRouter.route("/register").post(
       ])
       ,
     registerUser
+)
+userRouter.route("/auth/google").get(
+  signupWithGoogle
 )
 
 userRouter.route("/login").post(

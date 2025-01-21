@@ -51,7 +51,7 @@ const publishVideo = asyncHandler(async (req, res) => {
 
 const getAllVideos = asyncHandler(async (req, res) => {
     console.log("here")
-    const { page = 1, limit = 10, owner, videoId ,q, sortBy = 'createdAt', sortType = 'desc', userId } = req.query
+    const { page = 1, limit = 9, owner, videoId ,q, sortBy = 'createdAt', sortType = 'desc', userId } = req.query
     console.log("QUERY = " , req.query)
     const sortOrder = sortType === 'asc' ? 1 : -1;
     console.log("owner = " , owner)
