@@ -129,7 +129,7 @@ const signupWithGoogle = asyncHandler(async (req, res) => {
         const options = {
             httpOnly: true,
             secure: true,
-            SameSite: "none"
+            sameSite: "None"
 
         }
 
@@ -174,7 +174,7 @@ const signupWithGoogle = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
-        SameSite: "none"
+        sameSite: "None"
 
     }
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(createdUser._id)
@@ -225,7 +225,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
-        SameSite: "none"
+        sameSite: "None"
 
     }
     console.log(" hoiga login with at: ", accessToken)
@@ -263,7 +263,8 @@ const logoutUser = asyncHandler(async (req, res) => {
     )
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: 'None'
     }
 
     return res.status(200)
