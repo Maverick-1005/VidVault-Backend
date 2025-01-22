@@ -98,7 +98,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const signupWithGoogle = asyncHandler(async (req, res) => {
     const { code } = req.query
-
+   if(code) console.log("ye aaya code " , code)
     const googleRes = await oauth2client.getToken(code)
     oauth2client.setCredentials(googleRes.tokens);
 
