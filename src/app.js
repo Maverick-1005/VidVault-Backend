@@ -5,7 +5,10 @@ import multer from 'multer';
 
 const app = express()
 
-app.use(cors());  // Explore more options in Documentation
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));  // Explore more options in Documentation
 app.use(express.json({
     limit: "16kb"   // some codebases have body parser for this
 }))
