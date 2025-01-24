@@ -6,7 +6,7 @@ import multer from 'multer';
 const app = express()
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.FRONTEND_URL,
     credentials: true
 }));  // Explore more options in Documentation
 app.use(express.json({
