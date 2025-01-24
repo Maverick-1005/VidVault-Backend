@@ -6,7 +6,7 @@ import multer from 'multer';
 const app = express()
 
 app.use(cors({
-    origin: "https://vid-vault-frontend-il9g.vercel.app",
+    origin: "https://vidvault.vercel.app",
     credentials: true
 }));  // Explore more options in Documentation
 app.use(express.json({
