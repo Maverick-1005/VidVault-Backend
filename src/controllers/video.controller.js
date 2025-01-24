@@ -54,7 +54,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 9, owner, videoId ,q, sortBy = 'createdAt', sortType = 'desc', userId } = req.query
     console.log("QUERY = " , req.query)
     const sortOrder = sortType === 'asc' ? 1 : -1;
-    console.log("owner = " , owner)
+    // console.log("owner = " , owner)
 
     const query = {};
     if(q){
@@ -77,7 +77,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
         .skip((page - 1) * limit)
         .limit(limit);
 
-    console.log("Videos gye = ", videos);
+    // console.log("Videos gye = ", videos);
     //    console.log(" id= " , id );
 
     return res
@@ -87,7 +87,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
 
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params;
-   console.log("video id here 3 " , videoId)
+//    console.log("video id here 3 " , videoId)
     if (!videoId) throw new ApiError(404, "No Video Id found");
 
     const videoFile = await Video.findById(videoId)
