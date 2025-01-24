@@ -7,6 +7,8 @@ import jwt from "jsonwebtoken"
 import mongoose from "mongoose";
 import { oauth2client } from '../utils/googleConfig.js'
 import axios from "axios";
+import { google } from "googleapis";
+
 const generateAccessAndRefreshToken = async (userId) => {
     try {
         const user = await User.findById(userId);
@@ -99,6 +101,9 @@ const registerUser = asyncHandler(async (req, res) => {
 const signupWithGoogle = asyncHandler(async (req, res) => {
     const { code } = req.query
    if(code) console.log("ye aaya code " , code)
+
+    google.options({ auth: oauth2client });  
+
     const googleRes = await oauth2client.getToken(code)
     oauth2client.setCredentials(googleRes.tokens);
 
