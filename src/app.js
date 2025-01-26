@@ -6,7 +6,7 @@ import multer from 'multer';
 const app = express()
 
 app.use(cors({
-    origin: "https://vidvault.vercel.app",
+    origin: process.env.FRONTEND_URL,
     credentials: true
 }));  // Explore more options in Documentation
 app.use(express.json({
@@ -27,11 +27,13 @@ app.use(cookieParser())
 import userRouter from './routes/user.routes.js'
 import videoRouter from './routes/video.routes.js'
 import commentRouter from "./routes/comment.routes.js";
+import subscriptionRouter from "./routes/subscription.routes.js";
 
 // routes declaration
 
 app.use("/api/v1/users" , userRouter)
 app.use("/api/v1/video" , videoRouter)
 app.use("/api/v1/comments" ,  commentRouter)
+app.use("/api/v1/subs" ,  subscriptionRouter)
 
 export {app}
