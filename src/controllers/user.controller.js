@@ -449,7 +449,6 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
 })
 
 const getUserChannelProfile = asyncHandler(async (req, res) => {
-
     const { username } = req.params  // from url
 
     if (!username?.trim()) throw new ApiError(400, "Username is missing ");
@@ -501,6 +500,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
                 subscribedChannelsCount: 1,
                 avatar: 1,
                 email: 1,
+                bio: 1,
                 coverImage: 1,
                 isSubscribed: 1
 
@@ -518,6 +518,8 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
 
 
 })
+
+
 
 // console log krke dekhna channel
 
